@@ -2,7 +2,7 @@
 
 from .neural_network import Layer
 from .util import KernelShapeError
-from numpy import zeros, argmax
+from numpy import *
 
 
 class Reshape(Layer):

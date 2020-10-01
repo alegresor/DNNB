@@ -1,6 +1,6 @@
 ''' Functions Related to Constructing Adjacency Matricies '''
 
-from numpy import zeros, diag, ones, array
+from numpy import *
 
 def construct_a1(x, y, n_lines):
     x -= 1

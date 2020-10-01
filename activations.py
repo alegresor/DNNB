@@ -1,7 +1,7 @@
 ''' Activation Functions '''
 
 from .neural_network import Layer
-from numpy import exp, maximum, clip
+from numpy import *
 
 
 class Sigmoid(Layer):

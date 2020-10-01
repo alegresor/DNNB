@@ -1,6 +1,6 @@
 ''' Loss Functions '''
 
-from numpy import array, log, exp
+from numpy import *
 
 
 class MeanSquareError:

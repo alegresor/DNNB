@@ -1,13 +1,13 @@
 ''' Neural Network wrapper class '''
 
 from multiprocessing.pool import ThreadPool
-from numpy import array, arange, zeros
+from numpy import *
 
 
 class NeuralNetwork:
     ''' High level wrapper for a neural network model '''
 
-    def __init__(self, name, layers, loss_obj, optimizer_obj, parallel=False, processes=2, chunksize=10):
+    def __init__(self, name, layers, loss_obj, optimizer_obj, parallel=False, processes=2, chunksize=10, seed=None, yamchow_alpha=.05):
         '''       
         Args:
             name (string): name for this neural network model
@@ -23,19 +23,38 @@ class NeuralNetwork:
         self.parallel = parallel
         self.processes = processes
         self.chunksize = chunksize
-        
+        random.seed(seed)
+        self.initialized = False
+        self.alpha = yamchow_alpha
+
     def forward(self, x):
         n = x.shape[0]
         for layer in self.layers:
             layer.init_x(n)
-        if self.parallel:
-            pool = ThreadPool(processes=self.processes)
-            y_hat = array(pool.starmap(self.f, zip(arange(n),x), self.chunksize))
-        else:
+        if not self.initialized:
+            for l,layer in enumerate(self.layers):
+                if hasattr(layer,'params'): 
+                    next_layer = self.layers[l+1] if (l+1)<len(self.layers) else None
+                    std = inf
+                    for i,x_i in enumerate(x):                        
+                        bnd_i = layer._init_weights(x_i, next_layer, self.alpha)
+                        if bnd_i < std:
+                            std = bnd_i
+                    layer._set_weights(std)
+                y_hat = [None]*n
+                for i,x_i in enumerate(x):
+                    y_hat[i] = layer.forward(i,x_i)
+                y_hat = array(y_hat)
+                x = y_hat
+            self.initialized=True 
+        elif not self.parallel:
             y_hat = [None]*n
             for i,x_i in enumerate(x):
                 y_hat[i] = self.f(i,x_i)
             y_hat = array(y_hat)
+        else:
+            pool = ThreadPool(processes=self.processes)
+            y_hat = array(pool.starmap(self.f, zip(arange(n),x), self.chunksize))                
         return y_hat
 
     def f(self, i, x):

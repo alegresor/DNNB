@@ -3,7 +3,7 @@ Optimizers
     Helpful Resource: https://deepnotes.io/sgd-momentum-adaptive
 """
 
-from numpy import zeros, sqrt
+from numpy import *
 
 EPS = 1e-8
 

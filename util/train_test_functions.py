@@ -2,7 +2,7 @@
 
 from time import time
 from pandas import DataFrame
-from numpy import argmax, inf, zeros, diag, array, concatenate, isfinite
+from numpy import *
 
 
 def train_test_model(model, train_loader, test_loader, max_epochs=1, max_batches=inf,
@@ -27,7 +27,6 @@ def train_test_model(model, train_loader, test_loader, max_epochs=1, max_batches
             t0 = time()
             batch += 1
             if batch>max_batches:
-                print()
                 return df_batch_metrics,df_epoch_metrics
             try:
                 x = x.numpy()
