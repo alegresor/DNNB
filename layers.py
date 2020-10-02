@@ -34,7 +34,8 @@ class Linear(Layer):
         s =  'Linear (Fully Connected) Layer\n'
         s += '\tWeight Shape: %s\n'%str(self.w().shape)
         s += '\tBias Shape: %s\n'%str(self.b().shape)
-        s += '\tTotal Parameters: %d'%self.total_params
+        s += '\tTotal Parameters: %d\n'%self.total_params
+        s += '\tInitialization: %s'%self.itype
         return s
     
     def _init_weights(self, x0, next_layer, alpha):
@@ -124,7 +125,8 @@ class Conv_2D(Layer):
         s =  '2D Convolution Layer\n'
         s += '\tKernel Shape: %s\n'%str(self.k().shape)
         s += '\tBias Shape: %s\n'%str(self.b().shape)
-        s += '\tTotal Parameters: %d'%self.total_params
+        s += '\tTotal Parameters: %d\n'%self.total_params
+        s += '\tInitialization: %s'%self.itype
         return s
     
     def _init_weights(self, x0, next_layer, alpha):
@@ -232,7 +234,8 @@ class Conv_3D(Layer):
         s =  '3D Convolution Layer\n'
         s += '\tKernel Shape: %s\n'%str(self.k().shape)
         s += '\tBias Shape: %s\n'%str(self.b().shape)
-        s += '\tTotal Parameters: %d'%self.total_params
+        s += '\tTotal Parameters: %d\n'%self.total_params
+        s += '\tInitialization: %s'%self.itype
         return s
     
     def _init_weights(self, x0, next_layer, alpha):
@@ -318,7 +321,8 @@ class GraphConv(Layer):
         s += '\tNodes: %s\n'%str(self.nodes)
         s += '\tWeight Shape: %s\n'%str(self.w().shape)
         s += '\tBias Shape: %s\n'%str(self.b().shape)
-        s += '\tTotal Parameters: %d'%self.total_params
+        s += '\tTotal Parameters: %d\n'%self.total_params
+        s += '\tInitialization: %s'%self.itype
         return s
     
     def _init_weights(self, x0, next_layer, alpha):
