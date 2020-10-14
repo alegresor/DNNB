@@ -6,6 +6,7 @@ from .activations import *
 from numpy import *
 from scipy import stats
 
+EPS = 1e-8
 
 class Linear(Layer):
 
@@ -55,11 +56,11 @@ class Linear(Layer):
             else:
                 raise Exception("YamChow initialization requires either Tanh or Sigmoid next_layer")
             if 'paper' in self.itype and 'uniform' in self.itype:
-                bnd = lambda a: s_bar*sqrt(3/(self.f_in*(a**2).sum()))
+                bnd = lambda a: s_bar*sqrt(3/(self.f_in*(a**2).sum()+EPS))
             elif 'paper' in self.itype and 'gaussian' in self.itype:
-                bnd = lambda a: s_bar*sqrt(1/(self.f_in*(a**2).sum()))
+                bnd = lambda a: s_bar*sqrt(1/(self.f_in*(a**2).sum()+EPS))
             elif 'novel' in self.itype and 'gaussian' in self.itype:
-                bnd = lambda a: s_bar*sqrt(1/(stats.chi2.ppf(1-alpha,df=self.f_in)*(a**2).sum()))
+                bnd = lambda a: s_bar*sqrt(1/(stats.chi2.ppf(1-alpha,df=self.f_in)*(a**2).sum()+EPS))
             else:
                 raise Exception("YamChow itype must include ('paper','uniform'), ('paper','gaussian'), or ('novel,'gaussian'). ")
             std = bnd(x0)
@@ -146,11 +147,11 @@ class Conv_2D(Layer):
             else:
                 raise Exception("YamChow initialization requires either Tanh or Sigmoid next_layer")
             if 'paper' in self.itype and 'uniform' in self.itype:
-                bnd = lambda a: s_bar*sqrt(3/(self.x_l*self.k_f*(a**2).sum()))
+                bnd = lambda a: s_bar*sqrt(3/(self.x_l*self.k_f*(a**2).sum()+EPS))
             elif 'paper' in self.itype and 'gaussian' in self.itype:
-                bnd = lambda a: s_bar*sqrt(1/(self.x_l*self.k_f*(a**2).sum()))
+                bnd = lambda a: s_bar*sqrt(1/(self.x_l*self.k_f*(a**2).sum()+EPS))
             elif 'novel' in self.itype and 'gaussian' in self.itype:
-                bnd = lambda a: s_bar*sqrt(1/(stats.chi2.ppf(1-alpha,df=self.x_l*self.k_f)*(a**2).sum()))
+                bnd = lambda a: s_bar*sqrt(1/(stats.chi2.ppf(1-alpha,df=self.x_l*self.k_f)*(a**2).sum()+EPS))
             else:
                 raise Exception("YamChow itype must include ('paper','uniform'), ('paper','gaussian'), or ('novel,'gaussian'). ")
             x = zeros((self.x_l,self.x_f))
@@ -255,11 +256,11 @@ class Conv_3D(Layer):
             else:
                 raise Exception("YamChow initialization requires either Tanh or Sigmoid next_layer")
             if 'paper' in self.itype and 'uniform' in self.itype:
-                bnd = lambda a: s_bar*sqrt(3/(self.x_l*self.k_f1*self.k_f2*(a**2).sum()))
+                bnd = lambda a: s_bar*sqrt(3/(self.x_l*self.k_f1*self.k_f2*(a**2).sum()+EPS))
             elif 'paper' in self.itype and 'gaussian' in self.itype:
-                bnd = lambda a: s_bar*sqrt(1/(self.x_l*self.k_f1*self.k_f2*(a**2).sum()))
+                bnd = lambda a: s_bar*sqrt(1/(self.x_l*self.k_f1*self.k_f2*(a**2).sum()+EPS))
             elif 'novel' in self.itype and 'gaussian' in self.itype:
-                bnd = lambda a: s_bar*sqrt(1/(stats.chi2.ppf(1-alpha,df=self.x_l*self.k_f1*self.k_f2)*(a**2).sum()))
+                bnd = lambda a: s_bar*sqrt(1/(stats.chi2.ppf(1-alpha,df=self.x_l*self.k_f1*self.k_f2)*(a**2).sum()+EPS))
             else:
                 raise Exception("YamChow itype must include ('paper','uniform'), ('paper','gaussian'), or ('novel,'gaussian'). ")
             x = zeros((self.x_l,self.x_f1,self.x_f2))
@@ -342,11 +343,11 @@ class GraphConv(Layer):
             else:
                 raise Exception("YamChow initialization requires either Tanh or Sigmoid next_layer")
             if 'paper' in self.itype and 'uniform' in self.itype:
-                bnd = lambda a: s_bar*sqrt(3/(self.f_in*(a**2).sum()))
+                bnd = lambda a: s_bar*sqrt(3/(self.f_in*(a**2).sum()+EPS))
             elif 'paper' in self.itype and 'gaussian' in self.itype:
-                bnd = lambda a: s_bar*sqrt(1/(self.f_in*(a**2).sum()))
+                bnd = lambda a: s_bar*sqrt(1/(self.f_in*(a**2).sum()+EPS))
             elif 'novel' in self.itype and 'gaussian' in self.itype:
-                bnd = lambda a: s_bar*sqrt(1/(stats.chi2.ppf(1-alpha,df=self.f_in)*(a**2).sum()))
+                bnd = lambda a: s_bar*sqrt(1/(stats.chi2.ppf(1-alpha,df=self.f_in)*(a**2).sum()+EPS))
             else:
                 raise Exception("YamChow itype must include ('paper','uniform'), ('paper','gaussian'), or ('novel,'gaussian'). ")
             x = dot(self.a,x0)
